@@ -26,6 +26,7 @@ def rewrite_token(t):
 def rewrite_query(query):
     return " ".join(rewrite_token(t) for t in query.split())
 
+
 #main loop
 while True:
     
@@ -41,3 +42,4 @@ while True:
     #printing results
     for i, doc_idx in enumerate(hits_list):
         print("Matching doc #{:d}: {:s}".format(i, documents[doc_idx]))
+
