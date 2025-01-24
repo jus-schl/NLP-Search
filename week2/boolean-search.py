@@ -26,7 +26,20 @@ def rewrite_token(t):
 def rewrite_query(query):
     return " ".join(rewrite_token(t) for t in query.split())
 
-hits_matrix = eval(rewrite_query("test OR duck"))
-hits_list = list(hits_matrix.nonzero()[1])   
-for i, doc_idx in enumerate(hits_list):
-    print("Matching doc #{:d}: {:s}".format(i, documents[doc_idx]))
+
+#main loop
+while True:
+    
+    input_query = input("Search for: ") #user input
+    #loop exit
+    if input_query == "":
+        break
+
+    #searching for matching word in dataset
+    hits_matrix = eval(rewrite_query(input_query))
+    hits_list = list(hits_matrix.nonzero()[1])   
+
+    #printing results
+    for i, doc_idx in enumerate(hits_list):
+        print("Matching doc #{:d}: {:s}".format(i, documents[doc_idx]))
+
