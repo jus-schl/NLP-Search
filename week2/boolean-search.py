@@ -36,7 +36,7 @@ def rewrite_token(t, next_token=None):
 
 def rewrite_query(query):
     tokens = query.split()
-    return "".join(rewrite_token(tokens[i], tokens[i + 1] if i + 1 < len(tokens) else None) for i in range(len(tokens))) # if possible, the next token is also given to the function
+    return " ".join(rewrite_token(tokens[i], tokens[i + 1] if i + 1 < len(tokens) else None) for i in range(len(tokens))) # if possible, the next token is also given to the function
 
 
 #main loop
