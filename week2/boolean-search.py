@@ -39,10 +39,12 @@ while True:
         break
 
     #searching for matching word in dataset
-    hits_matrix = eval(rewrite_query(input_query))
-    hits_list = list(hits_matrix.nonzero()[1])   
+    try:
+        hits_matrix = eval(rewrite_query(input_query))
+        hits_list = list(hits_matrix.nonzero()[1])   
 
-    #printing results
-    for i, doc_idx in enumerate(hits_list):
-        print("Matching doc #{:d}: {:s}".format(i, documents[doc_idx]))
-
+        #printing results
+        for i, doc_idx in enumerate(hits_list):
+            print("Matching doc #{:d}: {:s}".format(i, documents[doc_idx]))
+    except:
+        print("Query failed")
