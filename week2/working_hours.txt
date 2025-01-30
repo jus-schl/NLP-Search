@@ -1,0 +1,11 @@
+The working hours of week 2:
+
+Eetu:
+
+24.1 1 hour. Implemented boolean search for a small set of documents.
+
+24.1 30 minutes. Figured out how to merge a branch with conflicts.
+
+25.1 1 hour. Tried to make queries with unknown words work. Managed to make some queries with unknown words work, but not all.
+
+30.1 30 minutes. Added a bigger dataset to query and implemented the boolean search for that dataset.
