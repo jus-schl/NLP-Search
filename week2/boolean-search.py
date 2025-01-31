@@ -1,11 +1,19 @@
 from sklearn.feature_extraction.text import CountVectorizer
 
-documents = [
-    "this is test data",
-    "this too is testing data",
-    "some random words here nothing special",
-    "duck is interesting data"
-    ]
+documents = []
+article = []
+with open('documents.txt', "r", encoding='utf-8') as file:
+    for line in file:
+        line = line.split()
+        if line[0] == "<article":
+            continue
+        if line[0] == "</article>":
+            article_string = " ".join(word for word in article)
+            documents.append(article_string)
+            article = []
+            continue
+        for word in line:
+            article.append(word)
 
 d = {"and": "&", "AND": "&",
      "or": "|", "OR": "|",
