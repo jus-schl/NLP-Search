@@ -1,4 +1,5 @@
 from sklearn.feature_extraction.text import CountVectorizer
+import numpy as np
 
 documents = []
 article = []
@@ -30,7 +31,7 @@ t2i = cv.vocabulary_
 
 def rewrite_token(t):
     if t not in d and t not in t2i: # handle unknown tokens
-        return '(0)'
+        return 'np.matrix([0] * sparse_td_matrix.shape[1])'
     return d.get(t, 'sparse_td_matrix[t2i["{:s}"]].todense()'.format(t))
 
 def rewrite_query(query):
