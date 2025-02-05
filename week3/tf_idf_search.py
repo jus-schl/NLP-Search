@@ -8,14 +8,14 @@ d = {"and": "&", "AND": "&",
      "(": "(", ")": ")"}
 
 
-def rewrite_token(t):
+def rewrite_token(t, t2i):
     if t not in d and t not in t2i: # handle unknown tokens
         return 'np.matrix([0] * sparse_td_matrix.shape[1])'
     return d.get(t, 'sparse_td_matrix[t2i["{:s}"]].todense()'.format(t))
 
-def rewrite_query(query):
+def rewrite_query(query, t2i):
     tokens = query.split()
-    return " ".join(rewrite_token(token) for token in tokens) # if possible, the next token is also given to the function
+    return " ".join(rewrite_token(token, t2i) for token in tokens)
 
 
 def return_docs(input_query, documents):
@@ -23,7 +23,7 @@ def return_docs(input_query, documents):
     sparse_td_matrix = tfv4.fit_transform(documents).T.tocsr()
     t2i = tfv4.vocabulary_
   
-    hits_matrix = eval(rewrite_query(input_query))
+    hits_matrix = eval(rewrite_query(input_query, t2i))
     hits_matrix = np.asarray(hits_matrix).flatten()
     hits_list = hits_matrix.nonzero()[0]
           
