@@ -1,4 +1,5 @@
 import neural_search
+import boolean_search
 from sentence_transformers import SentenceTransformer
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
@@ -19,22 +20,28 @@ for line in file:
     for word in line:
         article.append(word)
 
-
-search_engine = neural_search # The value of search_engine should be changed depending on the chosen engine
-
 # Encoding the documents with the dataset of current size takes a long time
 doc_embeddings = model.encode(documents) # doc_embeddings is assigned here so that it does not have to be ran every time neural search is used
 
 #main loop
 while True:
-    selected_engine = int(input("Write 1 for boolean search, 2 for tf_idf and 3 for neural search: "))
+    try:
+        selected_engine = int(input("Write 1 for boolean search, 2 for tf_idf and 3 for neural search: "))
+    except:
+        print("Invalid input")
+        break
 
-    if selected_engine == 3:
+    if selected_engine == 1:
         input_query = input("Search for: ") #user input
-        #loop exit
         if input_query == "":
             break
-        search_engine.return_docs(input_query, documents, doc_embeddings)
+        boolean_search.return_docs(input_query, documents)
+
+    elif selected_engine == 3:
+        input_query = input("Search for: ") #user input
+        if input_query == "":
+            break
+        neural_search.return_docs(input_query, documents, doc_embeddings)
     else:
         print("This engine is not yet implemented")
 
