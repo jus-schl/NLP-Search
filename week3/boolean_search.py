@@ -14,7 +14,7 @@ def rewrite_token(t, t2i):
 
 def rewrite_query(query, t2i):
     tokens = query.split()
-    return " ".join(rewrite_token(token, t2i) for token in tokens) # if possible, the next token is also given to the function
+    return " ".join(rewrite_token(token, t2i) for token in tokens)
 
 def return_docs(input_query, documents):
     cv = CountVectorizer(lowercase=True, binary=True)

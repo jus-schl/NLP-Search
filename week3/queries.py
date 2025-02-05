@@ -1,5 +1,6 @@
 import neural_search
 import boolean_search
+import tf_idf_search
 from sentence_transformers import SentenceTransformer
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
@@ -32,17 +33,24 @@ while True:
         break
 
     if selected_engine == 1:
-        input_query = input("Search for: ") #user input
+        input_query = input("Search for: ")
         if input_query == "":
             break
         boolean_search.return_docs(input_query, documents)
 
+    if selected_engine == 2:
+        input_query = input("Search for: ")
+        if input_query == "":
+            break
+        tf_idf_search.return_docs(input_query, documents)
+
     elif selected_engine == 3:
-        input_query = input("Search for: ") #user input
+        input_query = input("Search for: ")
         if input_query == "":
             break
         neural_search.return_docs(input_query, documents, doc_embeddings)
+
     else:
-        print("This engine is not yet implemented")
+        print("Input 1, 2 or 3")
 
     
