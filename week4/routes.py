@@ -11,7 +11,7 @@ def index():
 def process():
     if request.method == "POST":
         user_input = request.form.get('query')
-        engine = 1
+        engine = int(request.form.get('engine'))
         results = query.search_songs(user_input, engine)
         session['results'] = results
         return redirect('/')

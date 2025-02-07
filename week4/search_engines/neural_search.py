@@ -13,6 +13,7 @@ def return_docs(query, documents, doc_embeddings):
     # Rank hits
     ranked_doc_indices = np.argsort(cosine_similarities)[::-1]  # Sort descending
 
-    print(f"Your query '{query}' matches the following documents:")
+    docs = {}
     for i, doc_idx in enumerate(ranked_doc_indices[:5]):
-        print(f"Doc #{i} (score: {cosine_similarities[doc_idx]:.4f}): {documents[doc_idx]}")
+        docs[i] = documents[doc_idx]
+    return docs

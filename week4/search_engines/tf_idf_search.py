@@ -33,5 +33,8 @@ def return_docs(input_query, documents, stemmed_documents=None):
         key=lambda x: x[1],
         reverse=True
     )
-    for doc_idx, score in sorted_results:
-        print(f"Matching doc #{doc_idx} (Score: {score:.4f}): {documents[doc_idx]}")
+    docs = {}
+    for i, doc_idx in enumerate(sorted_results):
+        print(doc_idx)
+        docs[i] = documents[doc_idx[0]]
+    return docs
