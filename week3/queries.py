@@ -27,7 +27,6 @@ for line in file:
         continue
     for word in line:
         article.append(word)
-        print(ls.stem(word))
         stemmed_article.append(ls.stem(word))
 
 # Encoding the documents with the dataset of current size takes a long time
