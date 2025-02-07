@@ -1,0 +1,9 @@
+Eetu:
+
+31.1 1 hour. Added neural search and the possibility to select an engine.
+
+5.2 20 minutes. Added the possibility to query with boolean search.
+
+6.2 20 minutes. Connected tf_idf search engine to the queries
+
+7.2 1.5 hours. Added stemming to documents and queries. Literal search is also supported.
