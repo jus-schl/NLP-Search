@@ -18,9 +18,9 @@ def rewrite_query(query, t2i):
     return " ".join(rewrite_token(token, t2i) for token in tokens)
 
 
-def return_docs(input_query, documents):
+def return_docs(input_query, documents, stemmed_documents=None):
     tfv4 = TfidfVectorizer(lowercase=True, sublinear_tf=True, use_idf=True, norm="l2")
-    sparse_td_matrix = tfv4.fit_transform(documents).T.tocsr()
+    sparse_td_matrix = tfv4.fit_transform(stemmed_documents if stemmed_documents else documents).T.tocsr()
     t2i = tfv4.vocabulary_
   
     hits_matrix = eval(rewrite_query(input_query, t2i))
