@@ -1,0 +1,10 @@
+<article name="article1">
+Ducks are nice. Can you search this article without the plural?
+house
+</article>
+<article name="article2">
+This article is not about the animal discussed in the previous article.
+Wow this is another line.
+Searching documents is cool.
+housing
+</article>
