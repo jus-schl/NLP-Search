@@ -9,9 +9,12 @@ def index():
 
 @app.route('/process', methods=['GET', 'POST'])
 def process():
-    if request.method == "POST":
-        user_input = request.form.get('query')
-        engine = int(request.form.get('engine'))
-        results = query.search_songs(user_input, engine)
-        session['results'] = results
-        return redirect('/')
+    try:
+        if request.method == "POST":
+            user_input = request.form.get('query')
+            engine = int(request.form.get('engine'))
+            results = query.search_songs(user_input, engine)
+            session['results'] = results
+            return redirect('/')
+    except:
+        print(Exception)
