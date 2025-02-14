@@ -1,0 +1,5 @@
+eetu: 
+
+7.2 3 hours, created a user interface for queries and the possibility to select from the three search engines. Also debugged the stemming.
+
+9.2 and 10.2 about 2 hours of designing the website.
