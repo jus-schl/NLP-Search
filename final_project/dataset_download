@@ -1,0 +1,29 @@
+import pandas as pd
+import json
+
+chunksize = 100000
+
+FirstTimeSwitch = True #needed for initializing dataframe variable
+for chunk in pd.read_csv(r'C:\Users\user\Downloads\archive\song_lyrics.csv', chunksize = chunksize): #local path
+    significant_data = chunk[chunk["views"] > 1000000]
+
+    if FirstTimeSwitch:
+        dataframe = significant_data
+        FirstTimeSwitch = False
+    else:
+        # Concatenate the filtered chunk to the existing dataframe
+        dataframe = pd.concat([dataframe, significant_data], ignore_index=True)
+        
+#shaping the dataframe    
+selected_significant_data = dataframe[["artist","title", "tag", "year", "lyrics"]]
+selected_significant_data["id"] = range(len(selected_significant_data))
+
+print(len(selected_significant_data))
+
+#transform to dict and save as json file
+songs_list = selected_significant_data.to_dict(orient="records")
+json_data = {"songs": songs_list}
+with open("songs.json", "w", encoding="utf-8") as f:
+    json.dump(json_data, f, indent=4)
+
+
