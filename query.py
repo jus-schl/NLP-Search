@@ -1,20 +1,12 @@
 from search_engines import neural_search
 from search_engines import boolean_search
 from search_engines import tf_idf_search
-import nltk
-import json
-import numpy
 from sentence_transformers import SentenceTransformer
 model = SentenceTransformer('all-MiniLM-L6-v2')
 from nltk.stem import LancasterStemmer
 ls = LancasterStemmer()
 
-#file = open('smaller_songs.json', 'r', encoding='utf-8')
-#data = json.load(file)
-#lyrics = [item['lyrics'] for item in data['songs'] if 'lyrics' in item]
-#doc_embeddings = model.encode(lyrics)
-#print(type(doc_embeddings))
-#numpy.save("embeddings.npy", doc_embeddings)
+
 
 def search_songs(query, selected_engine):
     if query == "":

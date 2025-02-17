@@ -5,5 +5,4 @@ from os import getenv
 load_dotenv()
 
 app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
-print(getenv("DATABASE_URL"))
 db = SQLAlchemy(app)
