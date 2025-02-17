@@ -18,9 +18,11 @@ def return_docs(query):
     ranked_doc_indices = np.argsort(cosine_similarities)[::-1]  # Sort descending
 
     docs = {}
-    for i, doc_idx in enumerate(ranked_doc_indices[:5]):
+    for i, doc_idx in enumerate(ranked_doc_indices):
+        if i == 10:
+            break
         sql = text("SELECT artist, title, tag, year, lyrics FROM songs WHERE id=:id")
-        result = db.session.execute(sql, {"id": doc_idx+1})
+        result = db.session.execute(sql, {"id": int(doc_idx+1)})
         song = result.fetchone()
         docs[i] = song
     return docs
