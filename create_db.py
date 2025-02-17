@@ -16,8 +16,8 @@ with app.app_context():
             "id": song.get("id"),
             "artist": song.get("artist", "Unknown"),
             "title": song.get("title", "Unknown"),
-            "tag": song.get("tag", ""),
-            "year": song.get("year", None),
+            "tag": song.get("tag", "Unknown"),
+            "year": song.get("year", "Unknown"),
             "lyrics": song.get("lyrics", "")
         })
 

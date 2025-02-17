@@ -14,5 +14,5 @@ def return_scores(lyrics):
 
 
 def create_graph(lyrics):
-    # TODO this function should create the graph and call return_scores to get the values
+    emotions = return_scores(lyrics)
     pass
