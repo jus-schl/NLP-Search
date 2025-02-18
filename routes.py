@@ -3,13 +3,10 @@ from flask import render_template, request, redirect, session
 import traceback
 import query
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    results = session.pop('results', None)
-    return render_template('index.html', results = results)
-
-@app.route('/process', methods=['GET', 'POST'])
-def process():
+    if request.method == "GET":
+        return render_template('index.html')
     try:
         if request.method == "POST":
             user_input = request.form.get('query')
@@ -17,5 +14,9 @@ def process():
             results = query.search_songs(user_input, engine)
             return render_template('index.html', results = results)
     except Exception as e:
-        print("Error in /process:", e)
+        print("Error in /:", e)
         print(traceback.format_exc())
+
+@app.route('/process', methods=['GET', 'POST'])
+def process():
+    pass
