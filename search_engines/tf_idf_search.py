@@ -21,13 +21,16 @@ def rewrite_query(query, t2i):
     tokens = query.split()
     return " ".join(rewrite_token(token, t2i) for token in tokens)
 
-def load_vocabulary():
-    with open('./data/tfv4_vocabulary.json', 'r', encoding='utf-8') as file:
-        return json.load(file)
-
+def load_vocabulary(literal_search):
+    if literal_search:
+        with open('./data/tfv4_vocabulary.json', 'r', encoding='utf-8') as file:
+            return json.load(file)
+    else:
+        with open('./data/stem_tfv4_vocabulary.json', 'r', encoding='utf-8') as file:
+            return json.load(file)
 
 def return_docs(input_query, literal_search):
-    t2i = load_vocabulary()
+    t2i = load_vocabulary(literal_search)
     tfv4 = TfidfVectorizer(lowercase=True, sublinear_tf=True, use_idf=True, norm="l2", vocabulary=t2i)
     if literal_search:
         sparse_td_matrix = load_npz('./data/tf_idf.npz')
