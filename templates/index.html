@@ -27,6 +27,7 @@
                 <ul>
                     {% for key, value in results.items() %}
                         <li>{{ value[0] }}: {{ value[1] }}</li>
+                        <td><img src="../static/{{ key }}.png" style="width: 80px, height 1%"></td>
                         <p>{{ value[4] }}</p>
                     {% endfor %}
                 </ul>
