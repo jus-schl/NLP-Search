@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+    </head>
+    
+    <body>
+        <div class="header">
+            <h1>Song search</h1>
+        </div>
+
+        <form action="/" method="post">
+            <input type="radio" id="radio1" name="engine" value="1" checked>
+            <label for="radio1">Boolean search</label>
+            <input type="radio" id="radio2" name="engine" value="2">
+            <label for="radio2">Tf idf</label>
+            <input type="radio" id="radio3" name="engine" value="3"> 
+            <label for="radio3">Neural search</label>
+            <p><input type="text" name="query" placeholder="Enter text"></p>
+            <p><button type="submit">Search</button></p>
+            
+        </form>
+    
+        <div class="content">
+            {% if results %}
+                <h2>Results</h2>
+                <ul>
+                    {% for key, value in results.items() %}
+                        <li>{{ value[0] }}: {{ value[1] }}</li>
+                        <td><img src="../static/{{ key }}.png" style="width: 80px, height 1%"></td>
+                        <p>{{ value[4] }}</p>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </body>
+</html>
