@@ -4,4 +4,4 @@ The app uses a PostgreSQL database, so in order to run the app locally you need 
 
 user, password, port and databasename should be changed according to your local info, but the port is by default 5432.
 
-After the table is created, the data can be added to the database by running the create_db.py file.
+After the table is created, the data can be added to the database by running the create_db.py file to add songs to the database and running database_emotions.py to add the song's emotions to the database.
