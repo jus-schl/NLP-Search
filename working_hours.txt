@@ -1,0 +1,12 @@
+week 5:
+
+Eetu:
+
+15.2: About 5 hours. Added a postgresql database for the app, created files for the embeddings and matrices based on the new larger data set and made 2/3 search engines work
+with the database and files. Also tried different data set sizes to test how long computation takes / how large data sets are for the app.
+
+17.2: 1 hour. Started on the text classification for the graphs and made neural search work with the database and files.
+
+18.2: 45 minutes. Added stemmed vocabularies for tf-idf and boolean search to debug the search engines.
+
+20.2: 1.5 hours. Made a function that creates the plots and added the plots to the result page.
