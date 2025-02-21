@@ -1,28 +1,14 @@
-from transformers import pipeline
 import matplotlib.pyplot as plt
 import matplotlib
+from db import db
+from sqlalchemy.sql import text
 matplotlib.use('Agg')
-classifier = pipeline("text-classification", model='bhadresh-savani/distilbert-base-uncased-emotion', top_k=None)
 
-stopwords = ["yo", "uh", "yuh", "yeah", "the", "chorus", "a", "but"]
-
-def return_scores(lyrics):
-    lyrics = lyrics.strip()
-    lyric_list = lyrics.split()
-    lyric_list = [lyrics for lyrics in lyric_list if lyrics not in stopwords]
-    if len(lyric_list) > 300:
-        lyrics = " ".join(lyric_list[0:299]) # The model has a limit for token size
-    prediction = classifier(lyrics)          # Cutting a part of the lyrics probably does not affect the results much.
-    emotions = []
-    for dict in prediction[0]:
-        emotions.append([dict['label'], dict['score']])
-
-    # [ [love, score], [joy, score], [sadness, score], [anger, score], [surprise, score], [fear, score] ]
-    return emotions
-
-
-def create_graph(id, song_name, lyrics):
-    emotions = return_scores(lyrics)
+def create_graph(id, song_name, song_id):
+    sql = text("SELECT * FROM emotions WHERE id=:id")
+    result = db.session.execute(sql, {"id":song_id})
+    emotions = result.fetchone()
+    emotions = [["sadness", emotions[1]], ["joy", emotions[2]], ["love", emotions[3]], ["anger", emotions[4]], ["fear", emotions[5]], ["surprise", emotions[6]]]
     fig = plt.figure(facecolor='none')
     ax = plt.gca()
     ax.set_facecolor('darkgray')

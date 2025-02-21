@@ -47,6 +47,6 @@ def return_docs(input_query, literal_search):
         sql = text("SELECT artist, title, tag, year, lyrics FROM songs WHERE id=:id")
         result = db.session.execute(sql, {"id": int(doc_idx+1)})
         song = result.fetchone()
-        docs[i] = [song[0], song[1], song[2], song[3], song[4]]
-
+        docs[i] = [song[0], song[1], song[2], song[3], song[4], int(doc_idx+1)]
+    
     return docs

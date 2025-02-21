@@ -21,7 +21,7 @@ def return_docs(query):
     for i, doc_idx in enumerate(ranked_doc_indices):
         if i == 10:
             break
-        sql = text("SELECT artist, title, tag, year, lyrics FROM songs WHERE id=:id")
+        sql = text("SELECT artist, title, tag, year, lyrics, id FROM songs WHERE id=:id")
         result = db.session.execute(sql, {"id": int(doc_idx+1)})
         song = result.fetchone()
         docs[i] = song
