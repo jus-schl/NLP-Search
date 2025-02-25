@@ -51,8 +51,8 @@ def return_docs(input_query, literal_search):
     for i, doc_idx in enumerate(sorted_results):
         if i == 10:
             break
-        sql = text("SELECT artist, title, tag, year, lyrics FROM songs WHERE id=:id")
+        sql = text("SELECT artist, title, tag, year FROM songs WHERE id=:id")
         result = db.session.execute(sql, {"id": int(doc_idx[0]+1)})
         song = result.fetchone()
-        docs[i] = [song[0], song[1], song[2], song[3], song[4], int(doc_idx[0]+1)]
+        docs[i] = [song[0], song[1], song[2], song[3], int(doc_idx[0]+1)]
     return docs

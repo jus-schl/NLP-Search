@@ -2,7 +2,7 @@ from app import app
 from flask import render_template, request, redirect, session
 import traceback
 import query
-import song_graph
+import songs
 import urllib.parse
 
 @app.route('/', methods=['GET', 'POST'])
@@ -27,13 +27,13 @@ def process(encoded_input):
         if request.method == "GET":
             engine = session['engine']
             results = query.search_songs(user_input, engine)
-            for key, song in results.items():
-                song_graph.create_graph(key, song[1], song[5])
             return render_template('index.html', results = results)
     except Exception as e:
         print("Error in /process:", e)
         print(traceback.format_exc())
 
-@app.route('/songs/<song_name>', methods=['GET', 'POST'])
-def song(song_name):
-    pass
+@app.route('/songs/<song_id>', methods=['GET', 'POST'])
+def song(song_id):
+    results = songs.info(song_id)
+    songs.create_graph(song_id, results[0])
+    return render_template('song.html', results = results)

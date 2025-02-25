@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+    </head>
+    
+    <body class="song-body">
+        <div class="header">
+            <h1>Song search</h1>
+        </div>
+        <div class="container">
+            <div class="content-song">
+                {% if results %}
+                    <h2>{{ results[0] }}</h2>
+                    <h3>{{ results[1] }}</h3>
+                    <p>{{ results[2] }}</p>
+                {% endif %}
+            </div>
+            <div class="sidebar">
+                <img src="../static/emotions.png" alt="Emotions">
+            </div>
+        </div>
+    </body>
+</html>

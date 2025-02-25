@@ -24,13 +24,11 @@
         <div class="content">
             {% if results %}
                 <h2>Results</h2>
-                <ul>
                     {% for key, value in results.items() %}
-                        <li>{{ value[0] }}: {{ value[1] }}</li>
-                        <td><img src="../static/{{ key }}.png" style="width: 80px, height 1%"></td>
-                        <p>{{ value[4] }}</p>
+                        <h3><a href="/songs/{{value[4]}}">{{ value[0] }}: {{ value[1] }}</a></h3>
+                        <p>Genre: {{ value[2] }}</p>
+                        <p>Year: {{ value[3] }}</p>
                     {% endfor %}
-                </ul>
             {% endif %}
         </div>
     </body>
