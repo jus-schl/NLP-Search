@@ -5,6 +5,14 @@ body {
 	background: linear-gradient(90deg, #00051d, #4e0037);
 }
 
+.song-body {
+	margin: auto;
+	max-width: 90em;
+	font-family: 'Helvetica', 'Arial', sans-serif;
+	background: linear-gradient(90deg, #00051d, #4e0037);
+	padding: 1em;
+}
+
 .header {
 	width: 12em;
 	text-align: center;
@@ -16,8 +24,19 @@ body {
 	padding: .3em 0.3em;
 }
 
-
 .content {
+	font-size: 1em;
+	color: #000000;
+	background: rgba(189, 189, 189, 0.40);
+	padding: .5em 1em;
+	border: .3em solid #141414;
+	border-radius: .5em;
+	min-height: 85vh;
+}
+
+.content-song {
+	flex: 3;
+    min-width: 50%;
 	font-size: 1em;
 	color: #000000;
 	background: rgba(189, 189, 189, 0.40);
@@ -56,4 +75,26 @@ button {
 
 input[type="radio"]:checked {
     accent-color: rgb(3, 3, 46);
+}
+
+.container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5em;
+    padding: 1em;
+}
+
+.sidebar {
+    flex: 1.5;
+    display: flex;
+    justify-content: flex-end; /* Siirtää kuvan oikealle */
+    align-items: center;
+	margin-left: auto;
+}
+
+.sidebar img {
+    width: 40em;
+    height: 30em;
+    max-width: 100%;
 }
