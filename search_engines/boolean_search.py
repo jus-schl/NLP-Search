@@ -37,16 +37,11 @@ def return_docs(input_query, literal_search):
         sparse_td_matrix = load_npz('./data/stem_sparse_td_matrix.npz')
     #searching for matching word in dataset
     hits_matrix = eval(rewrite_query(input_query, t2i))
-    hits_list = list(hits_matrix.nonzero()[1])   
+    hits_list = list(hits_matrix.nonzero()[1])
 
     docs = {}
-
-    for i, doc_idx in enumerate(hits_list):
-        if i == 10:
-            break
-        sql = text("SELECT artist, title, tag, year FROM songs WHERE id=:id")
-        result = db.session.execute(sql, {"id": int(doc_idx+1)})
-        song = result.fetchone()
-        docs[i] = [song[0], song[1], song[2], song[3], int(doc_idx+1)]
-    
+    top_ids = [int(doc_idx+1) for doc_idx in hits_list]
+    sql = text("SELECT artist, title, tag, year, id FROM songs WHERE id IN :ids LIMIT 20")
+    result = db.session.execute(sql, {"ids": tuple(top_ids)})
+    docs = {i: row for i, row in enumerate(result.fetchall())}
     return docs
