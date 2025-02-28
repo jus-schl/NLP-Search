@@ -12,20 +12,24 @@ def search_songs(query, selected_engine):
     if query == "":
         return None
     
-    if selected_engine == 1:
-        if query[0] == '"' and query[-1] == '"':
-            return boolean_search.return_docs(query[1:len(query)-1], True)
-        else:
-            query = " ".join(ls.stem(word) for word in query.split())
-            return boolean_search.return_docs(query, False)
-        
-    elif selected_engine == 2:
-        if query[0] == '"' and query[-1] == '"':
-            return tf_idf_search.return_docs(query[1:len(query)-1], True)
-        else:
-            print(ls.stem(query))
-            query = " ".join(ls.stem(word) for word in query.split())
-            return tf_idf_search.return_docs(query, True)
-
-    elif selected_engine == 3:
-        return neural_search.return_docs(query)
+    try:
+    
+        if selected_engine == 1:
+            if query[0] == '"' and query[-1] == '"':
+                return boolean_search.return_docs(query[1:len(query)-1], True)
+            else:
+                query = " ".join(ls.stem(word) for word in query.split())
+                return boolean_search.return_docs(query, False)
+            
+        elif selected_engine == 2:
+            if query[0] == '"' and query[-1] == '"':
+                return tf_idf_search.return_docs(query[1:len(query)-1], True)
+            else:
+                print(ls.stem(query))
+                query = " ".join(ls.stem(word) for word in query.split())
+                return tf_idf_search.return_docs(query, True)
+            
+        elif selected_engine == 3:
+            return neural_search.return_docs(query)
+    except:
+        return None
