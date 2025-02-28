@@ -10,11 +10,11 @@
         </div>
 
         <form action="/" method="post">
-            <input type="radio" id="radio1" name="engine" value="1" checked>
+            <input type="radio" id="radio1" name="engine" value="1" {% if engine == 1 %}checked{% endif %}>
             <label for="radio1">Boolean search</label>
-            <input type="radio" id="radio2" name="engine" value="2">
+            <input type="radio" id="radio2" name="engine" value="2" {% if engine == 2 %}checked{% endif %}>
             <label for="radio2">Tf idf</label>
-            <input type="radio" id="radio3" name="engine" value="3"> 
+            <input type="radio" id="radio3" name="engine" value="3" {% if engine == 3 %}checked{% endif %}> 
             <label for="radio3">Neural search</label>
             <p><input type="text" name="query" placeholder="Enter text"></p>
             <p><button type="submit">Search</button></p>
@@ -22,6 +22,9 @@
         </form>
     
         <div class="content">
+            {% if error_message %}
+                <p class="highlight">{{ error_message }}</p>
+            {% endif %}
             {% if results %}
                 <h2>Results</h2>
                     {% for key, value in results.items() %}
