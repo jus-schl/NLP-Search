@@ -8,7 +8,7 @@ import urllib.parse
 def index():
     if request.method == "GET":
         engine = session.get("engine", 3)
-        return render_template('index.html', engine = session['engine'])
+        return render_template('index.html', engine = engine)
     if request.method == "POST":
         user_input = request.form.get('query')
         engine = int(request.form.get('engine'))
@@ -28,8 +28,9 @@ def process(encoded_input):
         if results:
             return render_template('index.html', results = results, engine = engine)
         else:
-            error_message = "Query failed"
-            return render_template('index.html', error_message = error_message, engine = engine)
+            suggestion = query.search_word(user_input)
+            error_message = f"No results found for query '{user_input}'"
+            return render_template('index.html', error_message = error_message, engine = engine, suggestion = suggestion)
 
 @app.route('/songs/<song_id>', methods=['GET', 'POST'])
 def song(song_id):

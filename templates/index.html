@@ -25,6 +25,9 @@
             {% if error_message %}
                 <p class="highlight">{{ error_message }}</p>
             {% endif %}
+            {% if suggestion %}
+                <p style="text-align: center;">Search for <a href="/process/{{suggestion}}">{{ suggestion }}?</a></p>
+            {% endif %}
             {% if results %}
                 <h2>Results</h2>
                     {% for key, value in results.items() %}
