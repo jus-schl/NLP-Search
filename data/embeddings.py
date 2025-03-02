@@ -7,7 +7,8 @@ model = SentenceTransformer('all-MiniLM-L6-v2')
 
 file = open('smaller_songs.json', 'r', encoding='utf-8')
 data = json.load(file)
-lyrics = [item['lyrics'] for item in data['songs'] if 'lyrics' in item]
+lyrics = [item['lyrics'].replace("\n", " ") for item in data['songs'] if 'lyrics' in item]
+
 doc_embeddings = model.encode(lyrics)
-print(type(doc_embeddings))
+
 numpy.save("embeddings.npy", doc_embeddings)
