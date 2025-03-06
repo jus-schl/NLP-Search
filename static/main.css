@@ -5,6 +5,10 @@ body {
 	background: linear-gradient(90deg, #00051d, #4e0037);
 }
 
+pre {
+	font-family: 'Helvetica', 'Arial', sans-serif;
+}
+
 .song-body {
 	margin: auto;
 	max-width: 90em;
@@ -69,8 +73,17 @@ button {
 	margin: 0 auto;
 	background: transparent;
 	text-align: center;
+	padding: .2em 1em .3em;
 	border: .1em solid linear-gradient(90deg, #001885, #007a5c);
 	border-radius: .5em;
+}
+
+button:hover {
+	padding: .2em 1.1em .3em;
+	background-color: #1f011c;
+	border: .2em solid linear-gradient(90deg, #00115c, #004130);
+	transition: background-color 0.5s ease;
+	transition: padding 0.2s ease;
 }
 
 input[type="radio"]:checked {
@@ -103,4 +116,20 @@ input[type="radio"]:checked {
 	text-align: center;
 	color: rgb(0, 0, 0);
 	font-weight: bold;
+}
+
+a {
+	text-decoration: none;
+	color: #270318;
+	font-weight: bold;
+}
+
+a:hover {
+	color: #44092b;
+	text-decoration: underline;
+	transition: color 0.3s ease;
+}
+
+.engines {
+	text-align: center;
 }
