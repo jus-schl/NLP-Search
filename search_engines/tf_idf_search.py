@@ -46,10 +46,11 @@ def return_docs(input_query, literal_search):
         [(doc_idx, hits_matrix[doc_idx]) for doc_idx in hits_list],
         key=lambda x: x[1],
         reverse=True
-    )
+    )[:min(20, len(hits_list))]
     docs = {}
     top_ids = [int(doc_idx[0]+1) for doc_idx in sorted_results]
-    sql = text("SELECT artist, title, tag, year, id FROM songs WHERE id IN :ids LIMIT 20")
+    sql = text("SELECT artist, title, tag, year, id FROM songs WHERE id IN :ids")
     result = db.session.execute(sql, {"ids": tuple(top_ids)})
-    docs = {i: row for i, row in enumerate(result.fetchall())}
-    return docs
+    docs = {row[4]: row for i, row in enumerate(result.fetchall())}
+    sorted_docs = {i: docs[doc_id] for i, doc_id in enumerate(top_ids)}
+    return sorted_docs
