@@ -32,7 +32,8 @@ def search_songs(query, selected_engine):
             
         elif selected_engine == 3:
             return neural_search.return_docs(query)
-    except:
+    except Exception as e:
+        print(e)
         return None
 
 

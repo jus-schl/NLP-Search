@@ -10,12 +10,14 @@
         </div>
 
         <form action="/" method="post">
+            <div class="engines">
             <input type="radio" id="radio1" name="engine" value="1" {% if engine == 1 %}checked{% endif %}>
             <label for="radio1">Boolean search</label>
             <input type="radio" id="radio2" name="engine" value="2" {% if engine == 2 %}checked{% endif %}>
             <label for="radio2">Tf idf</label>
             <input type="radio" id="radio3" name="engine" value="3" {% if engine == 3 %}checked{% endif %}> 
             <label for="radio3">Neural search</label>
+            </div>
             <p><input type="text" name="query" placeholder="Enter text"></p>
             <p><button type="submit">Search</button></p>
             
@@ -29,11 +31,11 @@
                 <p style="text-align: center;">Search for <a href="/process/{{suggestion}}">{{ suggestion }}?</a></p>
             {% endif %}
             {% if results %}
-                <h2>Results</h2>
+                <h2 style="text-align: center;">Results</h2>
                     {% for key, value in results.items() %}
-                        <h3><a href="/songs/{{value[4]}}">{{ value[0] }}: {{ value[1] }}</a></h3>
-                        <p>Genre: {{ value[2] }}</p>
-                        <p>Year: {{ value[3] }}</p>
+                        <h3 style="text-align: center;"><a href="/songs/{{value[4]}}">{{ value[0] }}: {{ value[1] }}</a></h3>
+                        <p><pre style="text-align: center;">Genre: {{ value[2] }}    Year: {{ value[3] }}</pre></p>
+                        <br>
                     {% endfor %}
             {% endif %}
         </div>
