@@ -8,8 +8,7 @@
         <div class="header">
             <h1>Song search</h1>
         </div>
-
-        <form action="/" method="post">
+        <form action="/" method="post" id="search-form">
             <div class="engines">
             <input type="radio" id="radio1" name="engine" value="1" {% if engine == 1 %}checked{% endif %}>
             <label for="radio1">Boolean search</label>
@@ -18,11 +17,11 @@
             <input type="radio" id="radio3" name="engine" value="3" {% if engine == 3 %}checked{% endif %}> 
             <label for="radio3">Neural search</label>
             </div>
+            <input type="hidden" name="filters" id="filters-hidden">
             <p><input type="text" name="query" placeholder="Enter text"></p>
             <p><button type="submit">Search</button></p>
-            
         </form>
-    
+        <div class="container">
         <div class="content">
             {% if error_message %}
                 <p class="highlight">{{ error_message }}</p>
@@ -39,5 +38,46 @@
                     {% endfor %}
             {% endif %}
         </div>
+        <div class="sidebar">
+            <div class="sidebar-content">
+                <h3 style="text-align: center;">Search by artists</h3>
+            <form id="filter-form">
+                <p><input type="text" id="filter-input" name="filter" placeholder="Enter artist"></p>
+                <p><button type="submit">Add</button></p>
+            </form>
+            <ul id="filter-list" style="text-align: center; font-weight: bold;"></ul>
+            </div>
+        </div>
     </body>
 </html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const filterForm = document.getElementById("filter-form");
+        const filterInput = document.getElementById("filter-input");
+        const filterList = document.getElementById("filter-list");
+        const searchForm = document.getElementById("search-form");
+        const filtersHidden = document.getElementById("filters-hidden");
+
+        const filters = [];
+
+        filterForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+            const inputText = filterInput.value.trim();
+            console.log(inputText)
+
+            if (inputText) {
+                filters.push(inputText)
+                const listItem = document.createElement("li");
+                listItem.textContent = inputText;
+                filterList.appendChild(listItem);
+                filterInput.value = "";
+            }
+        });
+    
+        searchForm.addEventListener("submit", function() {
+            filtersHidden.value = JSON.stringify(filters)
+        })
+});
+    </script>
+    

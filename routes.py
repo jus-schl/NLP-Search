@@ -1,22 +1,28 @@
 from app import app
-from flask import render_template, request, redirect, session
+from flask import render_template, request, redirect, session, jsonify
 import query
 import songs
 import urllib.parse
+import json
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == "GET":
-        engine = session.get("engine", 3)
+        engine = session.get("engine", 3) # Neural search is the default engine
         return render_template('index.html', engine = engine)
     if request.method == "POST":
         user_input = request.form.get('query')
         engine = int(request.form.get('engine'))
+        filters = request.form.get('filters', '[]') # Get artists to filter results
+        filters = json.loads(filters)
+        print(filters)
+        session['filters'] = filters
         session['engine'] = engine
         if not user_input:
             return render_template('index.html', engine = engine)
         encoded_input = urllib.parse.quote(user_input)
         return redirect(f'/process/{encoded_input}')
+    return render_template("index.html")
 
 
 @app.route('/process/<encoded_input>', methods=['GET', 'POST'])
@@ -24,7 +30,8 @@ def process(encoded_input):
     user_input = urllib.parse.unquote(encoded_input)
     if request.method == "GET":
         engine = session['engine']
-        results = query.search_songs(user_input, engine)
+        filters = session.get('filters', [])
+        results = query.search_songs(user_input, engine, filters)
         if results:
             return render_template('index.html', results = results, engine = engine)
         else:

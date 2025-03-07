@@ -8,7 +8,8 @@ ls = LancasterStemmer()
 with open("./data/word_list.txt", "r", encoding="utf-8") as f:
     word_list = f.read().splitlines()
 
-def search_songs(query, selected_engine):
+def search_songs(query, selected_engine, filters):
+    filters = [artist.lower() for artist in filters]
     if query == "":
         return None
     
@@ -16,22 +17,22 @@ def search_songs(query, selected_engine):
     
         if selected_engine == 1:
             if query[0] == '"' and query[-1] == '"':
-                return boolean_search.return_docs(query[1:len(query)-1], True)
+                return boolean_search.return_docs(query[1:len(query)-1], True, filters)
 
             else:
                 query = " ".join(ls.stem(word) for word in query.split())
-                return boolean_search.return_docs(query, False)
+                return boolean_search.return_docs(query, False, filters)
             
         elif selected_engine == 2:
             if query[0] == '"' and query[-1] == '"':
-                return tf_idf_search.return_docs(query[1:len(query)-1], True)
+                return tf_idf_search.return_docs(query[1:len(query)-1], True, filters)
             else:
                 print(ls.stem(query))
                 query = " ".join(ls.stem(word) for word in query.split())
-                return tf_idf_search.return_docs(query, True)
+                return tf_idf_search.return_docs(query, True, filters)
             
         elif selected_engine == 3:
-            return neural_search.return_docs(query)
+            return neural_search.return_docs(query, filters)
     except Exception as e:
         print(e)
         return None
