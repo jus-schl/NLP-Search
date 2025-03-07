@@ -17,7 +17,7 @@
             <input type="radio" id="radio3" name="engine" value="3" {% if engine == 3 %}checked{% endif %}> 
             <label for="radio3">Neural search</label>
             </div>
-            <input type="hidden" name="filters" id="filters-hidden">
+            <input type="hidden" name="artists" id="artists-hidden">
             <p><input type="text" name="query" placeholder="Enter text"></p>
             <p><button type="submit">Search</button></p>
         </form>
@@ -41,11 +41,11 @@
         <div class="sidebar">
             <div class="sidebar-content">
                 <h3 style="text-align: center;">Search by artists</h3>
-            <form id="filter-form">
-                <p><input type="text" id="filter-input" name="filter" placeholder="Enter artist"></p>
+            <form id="artist-form">
+                <p><input type="text" id="artist-input" name="artist" placeholder="Enter artist"></p>
                 <p><button type="submit">Add</button></p>
             </form>
-            <ul id="filter-list" style="text-align: center; font-weight: bold;"></ul>
+            <ul id="artist-list" style="text-align: center; font-weight: bold;"></ul>
             </div>
         </div>
     </body>
@@ -53,31 +53,72 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const filterForm = document.getElementById("filter-form");
-        const filterInput = document.getElementById("filter-input");
-        const filterList = document.getElementById("filter-list");
+        const artistForm = document.getElementById("artist-form");
+        const artistInput = document.getElementById("artist-input");
+        const artistList = document.getElementById("artist-list");
         const searchForm = document.getElementById("search-form");
-        const filtersHidden = document.getElementById("filters-hidden");
+        const artistsHidden = document.getElementById("artists-hidden");
 
-        const filters = [];
+        let artists = [];
 
-        filterForm.addEventListener("submit", function(event) {
+        fetch("/get_artists") // fetch artists from backend
+        .then(response => response.json())
+        .then(data => {
+            artists = data;
+            artists.forEach(addArtistToList);
+        });
+
+        artistForm.addEventListener("submit", function(event) {
             event.preventDefault();
-            const inputText = filterInput.value.trim();
+            const inputText = artistInput.value.trim();
             console.log(inputText)
 
             if (inputText) {
-                filters.push(inputText)
-                const listItem = document.createElement("li");
-                listItem.textContent = inputText;
-                filterList.appendChild(listItem);
-                filterInput.value = "";
+                fetch("/add_artists", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ artist: inputText })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        artists.push(inputText)
+                        addArtistToList(inputText)
+                        artistInput.value = "";
+                    }
+                })
             }
         });
     
         searchForm.addEventListener("submit", function() {
-            filtersHidden.value = JSON.stringify(filters)
+            artistsHidden.value = JSON.stringify(artists)
         })
+
+    function addArtistToList(artist) {
+        const listItem = document.createElement("li");
+        listItem.textContent = artist;
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "x"
+        removeButton.onclick = () => {
+            removeArtist(artist, listItem)
+        }
+        listItem.appendChild(removeButton);
+        artistList.appendChild(listItem);
+    }
+
+    function removeArtist(artist, element) {
+        fetch(`/delete_artist/${artist}`, {
+            method: "POST"
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                element.remove()
+                artists = artists.filter(a => a !== artist)
+                artistsHidden.value = JSON.stringify(artists)
+            }
+        })
+    }
 });
     </script>
     
