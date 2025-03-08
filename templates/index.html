@@ -8,8 +8,7 @@
         <div class="header">
             <h1>Song search</h1>
         </div>
-
-        <form action="/" method="post">
+        <form action="/" method="post" id="search-form">
             <div class="engines">
             <input type="radio" id="radio1" name="engine" value="1" {% if engine == 1 %}checked{% endif %}>
             <label for="radio1">Boolean search</label>
@@ -18,11 +17,11 @@
             <input type="radio" id="radio3" name="engine" value="3" {% if engine == 3 %}checked{% endif %}> 
             <label for="radio3">Neural search</label>
             </div>
+            <input type="hidden" name="artists" id="artists-hidden">
             <p><input type="text" name="query" placeholder="Enter text"></p>
             <p><button type="submit">Search</button></p>
-            
         </form>
-    
+        <div class="container">
         <div class="content">
             {% if error_message %}
                 <p class="highlight">{{ error_message }}</p>
@@ -39,5 +38,87 @@
                     {% endfor %}
             {% endif %}
         </div>
+        <div class="sidebar">
+            <div class="sidebar-content">
+                <h3 style="text-align: center;">Search by artists</h3>
+            <form id="artist-form">
+                <p><input type="text" id="artist-input" name="artist" placeholder="Enter artist"></p>
+                <p><button type="submit">Add</button></p>
+            </form>
+            <ul id="artist-list" style="text-align: center; font-weight: bold;"></ul>
+            </div>
+        </div>
     </body>
 </html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const artistForm = document.getElementById("artist-form");
+        const artistInput = document.getElementById("artist-input");
+        const artistList = document.getElementById("artist-list");
+        const searchForm = document.getElementById("search-form");
+        const artistsHidden = document.getElementById("artists-hidden");
+
+        let artists = [];
+
+        fetch("/get_artists") // fetch artists from backend
+        .then(response => response.json())
+        .then(data => {
+            artists = data;
+            artists.forEach(addArtistToList);
+        });
+
+        artistForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+            const inputText = artistInput.value.trim();
+            console.log(inputText)
+
+            if (inputText.length > 0) {
+                fetch("/add_artists", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ artist: inputText })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        artists.push(inputText)
+                        addArtistToList(inputText)
+                        artistInput.value = "";
+                    }
+                })
+            }
+        });
+    
+        searchForm.addEventListener("submit", function() {
+            artistsHidden.value = JSON.stringify(artists)
+        })
+
+    function addArtistToList(artist) {
+        const listItem = document.createElement("li");
+        listItem.textContent = artist;
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "x"
+        removeButton.onclick = () => {
+            removeArtist(artist, listItem)
+        }
+        listItem.appendChild(removeButton);
+        artistList.appendChild(listItem);
+    }
+
+    function removeArtist(artist, element) {
+        fetch(`/delete_artist/${artist}`, {
+            method: "POST"
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                element.remove()
+                artists = artists.filter(a => a !== artist)
+                artistsHidden.value = JSON.stringify(artists)
+            }
+        })
+    }
+});
+    </script>
+    

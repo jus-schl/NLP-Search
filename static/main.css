@@ -1,15 +1,8 @@
-body {
-	margin: auto;
-	max-width: 60em;
-	font-family: 'Helvetica', 'Arial', sans-serif;
-	background: linear-gradient(90deg, #00051d, #4e0037);
-}
-
 pre {
 	font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
-.song-body {
+body {
 	margin: auto;
 	max-width: 90em;
 	font-family: 'Helvetica', 'Arial', sans-serif;
@@ -24,21 +17,10 @@ pre {
     font-size: 0.7em;
     font-weight: bold;
     color: rgb(218, 218, 218);
-	background: rgba(0, 0, 0, 0.05);
 	padding: .3em 0.3em;
 }
 
 .content {
-	font-size: 1em;
-	color: #000000;
-	background: rgba(189, 189, 189, 0.40);
-	padding: .5em 1em;
-	border: .3em solid #141414;
-	border-radius: .5em;
-	min-height: 85vh;
-}
-
-.content-song {
 	flex: 3;
     min-width: 50%;
 	font-size: 1em;
@@ -55,7 +37,7 @@ label {
     font-weight: bold;
 }
 
-input[type="text"] {
+input[name="query"] {
 	width: 450px;
 	height: 40px;
 	color: white;
@@ -67,6 +49,18 @@ input[type="text"] {
 	border-radius: .5em;
 }
 
+input[name="artist"] {
+	width: 13em;
+	height: 2.5em;
+	color: #000000;
+	display: block;
+	text-align: center;
+	margin: 0 auto;
+	background: rgb(196, 191, 195);
+	border: .2em solid #141414;
+	border-radius: .5em;
+}
+
 button {
 	color: white;
 	display: block;
@@ -74,14 +68,12 @@ button {
 	background: transparent;
 	text-align: center;
 	padding: .2em 1em .3em;
-	border: .1em solid linear-gradient(90deg, #001885, #007a5c);
 	border-radius: .5em;
 }
 
 button:hover {
 	padding: .2em 1.1em .3em;
 	background-color: #1f011c;
-	border: .2em solid linear-gradient(90deg, #00115c, #004130);
 	transition: background-color 0.5s ease;
 	transition: padding 0.2s ease;
 }
@@ -101,9 +93,20 @@ input[type="radio"]:checked {
 .sidebar {
     flex: 1.5;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
 	margin-left: auto;
+}
+
+.sidebar-content {
+	width: 20em;
+	font-size: 1em;
+	color: #000000;
+	background: rgba(189, 189, 189, 0.40);
+	padding: .5em 1em;
+	border: .3em solid #141414;
+	border-radius: .5em;
+	min-height: 40vh;
 }
 
 .sidebar img {
@@ -132,4 +135,9 @@ a:hover {
 
 .engines {
 	text-align: center;
+}
+
+ul {
+	list-style-type: none;
+	padding-left: 0;
 }

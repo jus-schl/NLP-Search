@@ -4,6 +4,7 @@ from db import db
 from sqlalchemy.sql import text
 from scipy.sparse import load_npz
 import json
+from itertools import islice
 
 
 d = {"and": "&", "AND": "&",
@@ -29,7 +30,8 @@ def load_vocabulary(literal_search):
         with open('./data/stem_tfv4_vocabulary.json', 'r', encoding='utf-8') as file:
             return json.load(file)
 
-def return_docs(input_query, literal_search):
+def return_docs(input_query, literal_search, filters):
+    print(literal_search)
     t2i = load_vocabulary(literal_search)
     tfv4 = TfidfVectorizer(lowercase=True, sublinear_tf=True, use_idf=True, norm="l2", vocabulary=t2i)
     if literal_search:
@@ -53,11 +55,15 @@ def return_docs(input_query, literal_search):
         [(doc_idx, hits_matrix_addition[doc_idx]) for doc_idx in hits_list],
         key=lambda x: x[1],
         reverse=True
-    )[:min(20, len(hits_list))]
+    )
     docs = {}
     top_ids = [int(doc_idx[0]+1) for doc_idx in sorted_results]
-    sql = text("SELECT artist, title, tag, year, id FROM songs WHERE id IN :ids")
-    result = db.session.execute(sql, {"ids": tuple(top_ids)})
+    if len(filters) == 0:
+        sql = text("SELECT artist, title, tag, year, id FROM songs WHERE id IN :ids")
+        result = db.session.execute(sql, {"ids": tuple(top_ids)})
+    else:
+        sql = text("SELECT artist, title, tag, year, id FROM songs WHERE id IN :ids AND LOWER(artist) in :artists")
+        result = db.session.execute(sql, {"ids": tuple(top_ids), "artists": tuple(filters)})
     docs = {row[4]: row for i, row in enumerate(result.fetchall())}
-    sorted_docs = {i: docs[doc_id] for i, doc_id in enumerate(top_ids)}
-    return sorted_docs
+    sorted_docs = {i: docs[doc_id] for i, doc_id in enumerate(top_ids) if doc_id in docs}
+    return dict(islice(sorted_docs.items(), 30))
