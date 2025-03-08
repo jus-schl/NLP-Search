@@ -54,9 +54,9 @@ input[name="artist"] {
 	height: 2.5em;
 	color: #000000;
 	display: block;
+	text-align: center;
 	margin: 0 auto;
 	background: rgb(196, 191, 195);
-	text-align: center;
 	border: .2em solid #141414;
 	border-radius: .5em;
 }
@@ -135,4 +135,9 @@ a:hover {
 
 .engines {
 	text-align: center;
+}
+
+ul {
+	list-style-type: none;
+	padding-left: 0;
 }
