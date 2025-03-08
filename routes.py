@@ -48,6 +48,7 @@ def song(song_id):
 @app.route('/add_artists', methods=["POST"])
 def add_artists():
     artist = request.json.get("artists")
+    print(artist)
     if "artists" not in session:
         session["artists"] = []
     session["artists"].append(artist)

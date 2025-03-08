@@ -31,6 +31,7 @@ def load_vocabulary(literal_search):
             return json.load(file)
 
 def return_docs(input_query, literal_search, filters):
+    print(literal_search)
     t2i = load_vocabulary(literal_search)
     tfv4 = TfidfVectorizer(lowercase=True, sublinear_tf=True, use_idf=True, norm="l2", vocabulary=t2i)
     if literal_search:

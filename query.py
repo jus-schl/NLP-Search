@@ -2,7 +2,7 @@ from search_engines import neural_search
 from search_engines import boolean_search
 from search_engines import tf_idf_search
 from nltk.stem import LancasterStemmer
-from rapidfuzz import process
+from rapidfuzz import process, fuzz
 ls = LancasterStemmer()
 
 with open("./data/word_list.txt", "r", encoding="utf-8") as f:
@@ -29,7 +29,7 @@ def search_songs(query, selected_engine, filters):
             else:
                 print(ls.stem(query))
                 query = " ".join(ls.stem(word) for word in query.split())
-                return tf_idf_search.return_docs(query, True, filters)
+                return tf_idf_search.return_docs(query, False, filters)
             
         elif selected_engine == 3:
             return neural_search.return_docs(query, filters)
@@ -40,13 +40,19 @@ def search_songs(query, selected_engine, filters):
 
 
 def search_word(query):
+    words = query.split()
+    suggestion = []
     try:
-        max_edit_distance = 3
-        min_length_ratio = 0.7
-        matches = process.extract(query, word_list, limit=5, score_cutoff=100 - (max_edit_distance * 10))
-        for best_match, score, _ in matches:
-            if len(best_match) >= len(query) * min_length_ratio:
-                return best_match
-        return None
+        for word in words:
+            min_length_ratio = 0.7
+            matches = process.extract(word, word_list, limit=5, score_cutoff=70)
+            for best_match, score, _ in matches:
+                if len(best_match) >= len(word) * min_length_ratio:
+                    suggestion.append(best_match)
+                    break
+        suggestion = " ".join(i for i in suggestion)
+        if suggestion == query:
+            return None # No suggestion, if the best matches are the same query
+        return suggestion
     except:
-        return None
+       return None

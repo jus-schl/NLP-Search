@@ -73,7 +73,7 @@
             const inputText = artistInput.value.trim();
             console.log(inputText)
 
-            if (inputText) {
+            if (inputText.length > 0) {
                 fetch("/add_artists", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
