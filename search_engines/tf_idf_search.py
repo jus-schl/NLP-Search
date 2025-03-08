@@ -36,14 +36,21 @@ def return_docs(input_query, literal_search):
         sparse_td_matrix = load_npz('./data/tf_idf.npz')
     else:
         sparse_td_matrix = load_npz('./data/stem_tf_idf.npz')
-  
-    hits_matrix = eval(rewrite_query(input_query, t2i))
-    hits_matrix = np.asarray(hits_matrix).flatten()
-    hits_list = hits_matrix.nonzero()[0]
+    tokens = input_query.split()
+
+    for i,token in enumerate(tokens):
+        hits_matrix = eval(rewrite_query(token, t2i))
+        hits_matrix = np.asarray(hits_matrix).flatten()
+        if i == 0:
+            hits_matrix_addition = hits_matrix
+        else:
+            hits_matrix_addition = hits_matrix_addition + hits_matrix
+
+    hits_list = hits_matrix_addition.nonzero()[0]
           
   
     sorted_results = sorted(
-        [(doc_idx, hits_matrix[doc_idx]) for doc_idx in hits_list],
+        [(doc_idx, hits_matrix_addition[doc_idx]) for doc_idx in hits_list],
         key=lambda x: x[1],
         reverse=True
     )[:min(20, len(hits_list))]

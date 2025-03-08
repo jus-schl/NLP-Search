@@ -10,6 +10,9 @@ d = {"and": "&", "AND": "&",
      "not": "1 -", "NOT": "1 -",
      "(": "(", ")": ")"}
 
+operator = ["and", "AND", "or", "OR", "not", "NOT"]
+operator_without = ["and", "AND", "or", "OR"]
+
 
 def rewrite_token(t, t2i):
     if t not in d and t not in t2i: # handle unknown tokens
@@ -18,6 +21,13 @@ def rewrite_token(t, t2i):
 
 def rewrite_query(query, t2i):
     tokens = query.split()
+    
+    if len(tokens) > 1:
+        for i in range(len(tokens)):
+            if tokens[i] not in operator and tokens[i+1] not in operator_without:
+                tokens.insert(i+1, "and")
+            if i == len(tokens) - 2:
+                break
     return " ".join(rewrite_token(token, t2i) for token in tokens)
 
 def load_vocabulary(literal_search):
