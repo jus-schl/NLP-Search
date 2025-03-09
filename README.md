@@ -1,6 +1,10 @@
 README
 
-The app uses a PostgreSQL database, so in order to run the app locally you need to install PostgreSQL, create a database with your default user as the owner and create the needed tables to the database with the command psql < schema.sql. Creating PostgreSQL users and databases can for example be done by following the instructions of the following YouTube video: https://www.youtube.com/watch?v=RySuQtMiBxQ
+The app uses a PostgreSQL database, so in order to run the app locally you need to install PostgreSQL, create a database with your default user as the owner and create the needed tables to the database with the command 
+```bash
+psql < schema.sql.
+```
+Creating PostgreSQL users and databases can for example be done by following the instructions of the following YouTube video: https://www.youtube.com/watch?v=RySuQtMiBxQ
 
 To create a virtual environment run
 ```bash
@@ -26,7 +30,7 @@ After the tables are created, the songs can be added to the database by running 
 psql -U user -d databasename -c "\copy emotions FROM 'insertPathToEmotions.csv' WITH (FORMAT csv, HEADER true);"
 ```
 
-Finally, the app can be run with the command
+Finally, the app can be run in the root directory with the command
 ```bash
 flask run
 ```
