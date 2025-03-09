@@ -1,4 +1,18 @@
-README
+## A description of the app
+
+The app aims to solve the problem of finding songs by their lyrics, and the database consists of 12 500 popular songs of which the lyrics can be queried.
+Our app uses three different search engines: boolean search, tf-idf and neural search.
+The boolean search returns the songs that match the words provided in the query, tf-idf does the same , but ranks the songs by their relevance and thus returns the songs that are the most relevant for the query, and neural search returns the songs that are the most semantically similar to the query. The songs that are returned can be filtered by artist, by adding artists to the form in the sidebar on the right. 
+The page that shows the individual song's lyrics also has a graph that displays the computed emotions based on the song's lyrics. These emotion scores are in the database, so this would enable a straightforward way to search songs by their emotions. However this is not implemented in the current app.
+
+## How to run the app locally
+
+First clone the app with the command
+
+```bash
+git clone https://github.com/jus-schl/NLP-Search.git
+```
+and move to the root directory.
 
 The app uses a PostgreSQL database, so in order to run the app locally you need to install PostgreSQL, create a database with your default user as the owner and create the needed tables to the database with the command 
 ```bash
