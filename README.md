@@ -21,7 +21,7 @@ then install the requirements with
 pip install -r requirements.txt
 ```
 
-The .env file should have the database address of the form DATABASE_URL=postgresql://user:password@localhost:port/databasename
+The .env file should have the database address of the form DATABASE_URL=postgresql://user:password@localhost:port/databasename and a secret key of the form SECRET_KEY=yoursecretkey
 
 user, password, port and databasename should be changed according to your local info, but the port is by default 5432.
 
